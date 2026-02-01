@@ -1,0 +1,59 @@
+optimizer : {
+  type: AdamW,
+  kwargs: {
+  lr : 0.0001,
+  weight_decay : 0.01
+}}
+
+scheduler: {
+  type: CosLR,
+  kwargs: {
+    epochs: 100,
+    initial_epochs : 10
+}}
+
+dataset : {
+  train : {NAME: NAME, 
+  DATA_PATH : ./datasets/, 
+  PC_PATH : path/to/pointclouds,
+  subset : 'train',
+  bs : 32},
+
+  val : {NAME: NAME,
+  DATA_PATH : ./datasets/,
+  PC_PATH : /path/to/pointclouds,
+  subset : 'val',
+  bs : 32},
+
+  test : {NAME: NAME,
+  DATA_PATH : ./datasets/,
+  PC_PATH : /path/to/pointclouds,
+  subset : 'test',
+  bs : 32}}
+
+
+
+model : {
+  NAME: PointTransformer,
+  trans_dim: 384,
+  depth: 12,
+  drop_path_rate: 0.1,
+  out_dim: 1,
+  num_heads: 6,
+  group_size: 192, 
+  num_group: 256,
+  encoder_dims: 384,
+  loss: mae
+}
+
+
+npoints: 32251
+total_bs : 32
+step_per_update : 1
+max_epoch : 100
+grad_norm_clip : 10
+
+ckpt_file: "pretrain.pth"
+model_dir : "./"
+model_name: finetune_age.pth
+
